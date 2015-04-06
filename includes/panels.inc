@@ -35,8 +35,17 @@ function panels_vefl_layouts() {
 function vefl_theme_views_exposed_form_panels(&$vars) {
   ctools_include('plugins', 'panels');
 
+  // Prepare content to output in panels.
+  $content = array();
+  foreach ($vars['region_widgets'] as $region => $widgets) {
+    $content[$region] = '';
+    foreach ($widgets as $widget) {
+      $content[$region] .= theme('views_exposed_widget', array('widget' => $widget));
+    }
+  }
+
   // Outputs content in panels layout.
   $layout_name = substr($vars['form']['#layout']['layout'], 7);
-  $panel_content = panels_print_layout(panels_get_layout($layout_name), $vars['region_widgets']);
+  $panel_content = panels_print_layout(panels_get_layout($layout_name), $content);
   return '<div class="views-exposed-form views-exposed-widgets clearfix">' . $panel_content . '</div>';
 }

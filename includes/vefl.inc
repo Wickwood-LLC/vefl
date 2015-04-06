@@ -58,7 +58,7 @@ function vefl_preprocess_views_exposed_form(&$vars) {
   foreach ($layout['region_widgets'] as $region => $fields) {
     foreach ($fields as $id) {
       if (!in_array($id, $actions) && !empty($vars['widgets'][$id]->widget)) {
-        $vars['region_widgets'][$region] .= theme('views_exposed_widget', array('widget' => $vars['widgets'][$id]));
+        $vars['region_widgets'][$region][$id] = $vars['widgets'][$id];
       }
     }
   }
@@ -67,7 +67,7 @@ function vefl_preprocess_views_exposed_form(&$vars) {
     foreach ($fields as $id) {
       if (in_array($id, $actions) && !empty($vars[$id])) {
         $widget = array('widget' => $vars[$id], 'id' => 'bef-' . $id);
-        $vars['region_widgets'][$region] .= theme('views_exposed_widget', array('widget' => (object) $widget));
+        $vars['region_widgets'][$region][$id] = (object) $widget;
       }
     }
   }
