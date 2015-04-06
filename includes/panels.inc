@@ -26,17 +26,6 @@ function panels_vefl_layouts() {
 }
 
 /**
- * A theme preprocess function for vefl_views_exposed_form_panels().
- *
- * Adds $region_widgets array with separated by regions widgets.
- */
-function vefl_preprocess_vefl_views_exposed_form_panels(&$vars) {
-  ctools_include('vefl', 'vefl');
-  template_preprocess_views_exposed_form($vars);
-  vefl_preprocess_views_exposed_form($vars);
-}
-
-/**
  * Theme function for Views exposed form.
  *
  * Wraps form field into regions.

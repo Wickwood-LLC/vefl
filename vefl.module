@@ -21,6 +21,10 @@ function vefl_theme() {
       'render element' => 'form',
       'theme path' => $path,
       'function' => 'vefl_theme_views_exposed_form_panels',
+      'preprocess functions' => array(
+        'template_preprocess_views_exposed_form',
+        'vefl_preprocess_views_exposed_form',
+      ),
     );
   }
   return $themes;
