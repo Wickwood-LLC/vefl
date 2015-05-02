@@ -51,7 +51,7 @@ function vefl_preprocess_views_exposed_form(&$vars) {
 
   // Ensure each region has an empty value.
   foreach ($layout['region_widgets'] as $region => $fields) {
-    $vars['region_widgets'][$region] = '';
+    $vars['region_widgets'][$region] = array();
   }
 
   // Put fields to regions.
