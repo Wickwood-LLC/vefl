@@ -141,7 +141,6 @@ class vefl_plugin_exposed_form_basic extends views_plugin_exposed_form_basic {
     $form['#theme'] = _vefl_form_theme_functions($layout_id, $view, $display);
     $form['#layout'] = $this->options['layout'];
     $form['#layout']['region_widgets'] = $region_widgets;
-    drupal_add_css(drupal_get_path('module', 'vefl') . '/css/vefl-layouts.css');
   }
 
 }

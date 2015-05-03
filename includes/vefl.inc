@@ -73,4 +73,7 @@ function vefl_preprocess_views_exposed_form(&$vars) {
   }
   $vars['classes_array'][] = 'vefl-layout';
   $vars['classes_array'][] = str_replace('_', '-', $layout['layout']);
+  if (vefl_layout_module($layout['layout']) == 'vefl') {
+    drupal_add_css(drupal_get_path('module', 'vefl') . '/css/vefl-layouts.css');
+  }
 }

@@ -22,8 +22,19 @@ function vefl_theme() {
       'theme path' => $path,
       'function' => 'vefl_theme_views_exposed_form_panels',
       'preprocess functions' => array(
-        'template_preprocess_views_exposed_form',
-        'vefl_preprocess_views_exposed_form',
+        'template_preprocess_views_exposed_form', // Use default Views preprocess
+        'vefl_preprocess_views_exposed_form',     // and VEFL preprocess functions.
+      ),
+    );
+  }
+  if (module_exists('ds')) {
+    $themes['vefl_views_exposed_form_ds'] = array(
+      'render element' => 'form',
+      'theme path' => $path,
+      'function' => 'vefl_theme_views_exposed_form_ds',
+      'preprocess functions' => array(
+        'template_preprocess_views_exposed_form', // Use default Views preprocess
+        'vefl_preprocess_views_exposed_form',     // and VEFL preprocess functions.
       ),
     );
   }
@@ -40,6 +51,17 @@ function vefl_theme_registry_alter(&$theme_registry) {
   $views_path = drupal_get_path('module', 'views');
   if ($theme_registry['views_exposed_form']['path'] == $views_path . '/theme') {
     $theme_registry['views_exposed_form']['path'] = $module_path . '/theme';
+  }
+
+  // Adds additional preprocess function for ds layout.
+  if (module_exists('ds')) {
+    $module_layouts = ds_get_layout_info();
+    foreach ($module_layouts as $id => $layout) {
+      if (!empty($layout['module']) && $layout['module'] == 'panels') {
+        continue;
+      }
+      $theme_registry[$id]['preprocess functions'][] = 'vefl_ds_preprocess_layout';
+    }
   }
 }
 
@@ -74,6 +96,7 @@ function vefl_get_layouts($layout_id = '') {
   if (empty($layouts)) {
     ctools_include('vefl', 'vefl');
     ctools_include('panels', 'vefl');
+    ctools_include('ds', 'vefl');
     $layouts = module_invoke_all('vefl_layouts');
   }
   return !empty($layout_id) && !empty($layouts[$layout_id]) ? $layouts[$layout_id] : $layouts;
@@ -93,6 +116,9 @@ function vefl_layout_module($layout_id) {
   if (module_exists('panels') && substr($layout_id, 0, 7) == 'panels_') {
     $module = 'panels';
   }
+  if (module_exists('ds') && substr($layout_id, 0, 3) == 'ds_') {
+    $module = 'ds';
+  }
   return $module;
 }
 
@@ -108,6 +134,9 @@ function _vefl_form_theme_functions($layout_id, $view, $display) {
   $hook = 'views_exposed_form';
   if (vefl_layout_module($layout_id) == 'panels') {
     $hook = 'vefl_views_exposed_form_panels';
+  }
+  elseif (vefl_layout_module($layout_id) == 'ds') {
+    $hook = 'vefl_views_exposed_form_ds';
   }
   return views_theme_functions($hook, $view, $display);
 }
