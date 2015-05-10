@@ -13,7 +13,7 @@
  */
 ?>
 
-<div class="views-exposed-widget views-widget-<?php print $widget->id; ?>">
+<div id="<?php print $widget->id; ?>-wrapper" class="views-exposed-widget views-widget-<?php print $widget->id; ?>">
   <?php if (!empty($widget->label)): ?>
     <label for="<?php print $widget->id; ?>">
       <?php print $widget->label; ?>
