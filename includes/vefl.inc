@@ -42,7 +42,7 @@ function vefl_vefl_layouts() {
  *
  * Adds $region_widgets array with separated by regions widgets.
  */
-function vefl_preprocess_views_exposed_form(&$vars) {
+function vefl_views_exposed_form_preprocess(&$vars) {
   if (empty($vars['form']['#layout'])) {
     return;
   }

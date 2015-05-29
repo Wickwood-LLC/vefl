@@ -23,7 +23,7 @@ function vefl_theme() {
       'function' => 'vefl_theme_views_exposed_form_panels',
       'preprocess functions' => array(
         'template_preprocess_views_exposed_form', // Use default Views preprocess
-        'vefl_preprocess_views_exposed_form',     // and VEFL preprocess functions.
+        'vefl_views_exposed_form_preprocess',     // and VEFL preprocess functions.
       ),
     );
   }
@@ -34,7 +34,7 @@ function vefl_theme() {
       'function' => 'vefl_theme_views_exposed_form_ds',
       'preprocess functions' => array(
         'template_preprocess_views_exposed_form', // Use default Views preprocess
-        'vefl_preprocess_views_exposed_form',     // and VEFL preprocess functions.
+        'vefl_views_exposed_form_preprocess',     // and VEFL preprocess functions.
       ),
     );
   }
@@ -53,6 +53,7 @@ function vefl_theme_registry_alter(&$theme_registry) {
     $theme_registry['views_exposed_form']['path'] = $module_path . '/theme';
     $theme_registry['views_exposed_form']['theme path'] = $module_path . '/theme';
   }
+  $theme_registry['views_exposed_form']['preprocess functions'][] = 'vefl_views_exposed_form_preprocess';
 
   // Adds additional preprocess function for ds layout.
   if (module_exists('ds')) {
