@@ -36,7 +36,7 @@ function ds_vefl_layouts() {
  * @see _vefl_form_theme_functions()
  */
 function vefl_theme_views_exposed_form_ds(&$vars) {
-  $layout_id = $vars['form']['#layout']['layout'];
+  $layout_id = $vars['form']['#layout']['layout_id'];
 
   // Prepare content to output in panels.
   $content = array();

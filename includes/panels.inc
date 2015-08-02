@@ -44,7 +44,7 @@ function vefl_theme_views_exposed_form_panels(&$vars) {
   }
 
   // Outputs content in panels layout.
-  $layout_name = substr($vars['form']['#layout']['layout'], 7);
+  $layout_name = substr($vars['form']['#layout']['layout_id'], 7);
   $panel_content = panels_print_layout(panels_get_layout($layout_name), $content);
   return '<div class="views-exposed-form views-exposed-widgets clearfix">' . $panel_content . '</div>';
 }

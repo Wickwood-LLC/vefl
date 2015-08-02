@@ -72,8 +72,8 @@ function vefl_views_exposed_form_preprocess(&$vars) {
     }
   }
   $vars['classes_array'][] = 'vefl-layout';
-  $vars['classes_array'][] = str_replace('_', '-', $layout['layout']);
-  if (vefl_layout_module($layout['layout']) == 'vefl') {
+  $vars['classes_array'][] = str_replace('_', '-', $layout['layout_id']);
+  if (vefl_layout_module($layout['layout_id']) == 'vefl') {
     drupal_add_css(drupal_get_path('module', 'vefl') . '/css/vefl-layouts.css');
   }
 }
