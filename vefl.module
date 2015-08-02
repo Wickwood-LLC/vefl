@@ -6,6 +6,13 @@
  */
 
 /**
+ * Include files.
+ */
+ctools_include('ds', 'vefl');
+ctools_include('vefl', 'vefl');
+ctools_include('panels', 'vefl');
+
+/**
  * Implements hook_theme().
  */
 function vefl_theme() {
