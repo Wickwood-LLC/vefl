@@ -103,9 +103,6 @@ function vefl_form_actions() {
 function vefl_get_layouts($layout_id = '') {
   $layouts = &drupal_static(__FUNCTION__, array());
   if (empty($layouts)) {
-    ctools_include('vefl', 'vefl');
-    ctools_include('panels', 'vefl');
-    ctools_include('ds', 'vefl');
     $layouts = module_invoke_all('vefl_layouts');
   }
   return !empty($layout_id) && !empty($layouts[$layout_id]) ? $layouts[$layout_id] : $layouts;
