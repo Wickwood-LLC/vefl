@@ -111,13 +111,12 @@ class vefl_plugin_exposed_form_basic extends views_plugin_exposed_form_basic {
     $view = &$form_state['view'];
     $display = &$form_state['display'];
     $layout_id = $this->options['layout']['layout'];
-    //dpm($this->options['layout']);
     $layout = vefl_get_layouts($layout_id);
 
     // Fill regions.
     $region_widgets = array();
-    $regions = $layout['regions'];
-    foreach ($regions as $region => $label) {
+    $regions = array_keys($layout['regions']);
+    foreach ($regions as $region) {
       $region_widgets[$region] = array();
     }
 
@@ -127,7 +126,7 @@ class vefl_plugin_exposed_form_basic extends views_plugin_exposed_form_basic {
       if (!$filter->options['exposed']) {
         continue;
       }
-      $filter_region = $this->options['layout']['regions'][$label];
+      $filter_region = !empty($this->options['layout']['regions'][$label]) ? $this->options['layout']['regions'][$label] : reset($regions);
       $filter_key = 'filter-' . ($filters[$label]->options['is_grouped'] ? $filters[$label]->options['group_info']['identifier'] : $label);
 
       $region_widgets[$filter_region][] = $filter_key;
