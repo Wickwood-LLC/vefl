@@ -111,6 +111,7 @@ class vefl_plugin_exposed_form_basic extends views_plugin_exposed_form_basic {
     $view = &$form_state['view'];
     $display = &$form_state['display'];
     $layout_id = $this->options['layout']['layout'];
+    //dpm($this->options['layout']);
     $layout = vefl_get_layouts($layout_id);
 
     // Fill regions.

@@ -14,13 +14,12 @@ function panels_vefl_layouts() {
 
   $layouts = array();
   foreach ($module_layouts as $id => $layout) {
-    if (!isset($layout['builder'])) {
-      $layouts['panels_' . $id] = array(
-        'title' => $layout['title'],
-        'regions' => $layout['regions'],
-        'module' => 'Panels',
-      );
-    }
+    $regions = panels_get_regions($layout, panels_new_display());
+    $layouts['panels_' . $id] = array(
+      'title' => $layout['title'],
+      'regions' => $regions,
+      'module' => 'Panels',
+    );
   }
   return $layouts;
 }
