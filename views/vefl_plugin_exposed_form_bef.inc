@@ -67,6 +67,14 @@ class vefl_plugin_exposed_form_bef extends better_exposed_filters_exposed_form_p
       'filters' => $this->display->handler->get_handlers('filter'),
       'actions' => vefl_form_actions(),
     );
+
+    // Adds options for exposed sorts.
+    foreach ($this->display->handler->get_handlers('sort') as $sort) {
+      if ($sort->options['exposed']) {
+        $types['actions']['sort-sort_bef_combine'] = t('Combine sort order with sort by');
+        break;
+      }
+    }
     $regions = $layouts[$layout_id]['regions'];
     foreach ($types as $type => $fields) {
       foreach ($fields as $id => $filter) {
@@ -135,6 +143,11 @@ class vefl_plugin_exposed_form_bef extends better_exposed_filters_exposed_form_p
 
     // Fill action fields.
     $actions = array_keys(vefl_form_actions());
+
+    // Adds additional action for combined sort.
+    if (!empty($this->options['layout']['widget_region']['sort-sort_bef_combine'])) {
+      array_splice($actions, 2, 0, array('sort-sort_bef_combine'));
+    }
     foreach ($actions as $action_id) {
       $filter_region = $this->options['layout']['widget_region'][$action_id];
       $region_widgets[$filter_region][] = $action_id;

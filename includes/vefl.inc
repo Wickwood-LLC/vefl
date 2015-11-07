@@ -49,6 +49,10 @@ function vefl_views_exposed_form_preprocess(&$vars) {
   $layout = $vars['form']['#layout'];
   $actions = array_keys(vefl_form_actions());
 
+  // Adds additional action for BEF combined sort.
+  if (!empty($vars['widgets']['sort-sort_bef_combine'])) {
+    $actions[] = 'sort-sort_bef_combine';
+  }
   // Ensure each region has an empty value.
   foreach ($layout['region_widgets'] as $region => $fields) {
     $vars['region_widgets'][$region] = array();
@@ -65,8 +69,8 @@ function vefl_views_exposed_form_preprocess(&$vars) {
   // Put form actions to regions.
   foreach ($layout['region_widgets'] as $region => $fields) {
     foreach ($fields as $id) {
-      if (in_array($id, $actions) && !empty($vars[$id])) {
-        $widget = array('widget' => $vars[$id], 'id' => 'bef-' . $id);
+      if (in_array($id, $actions) && (!empty($vars['widgets'][$id]->widget) || !empty($vars[$id]))) {
+        $widget = !empty($vars['widgets'][$id]->widget) ? $vars['widgets'][$id] : array('widget' => $vars[$id], 'id' => 'bef-' . $id);
         $vars['region_widgets'][$region][$id] = (object) $widget;
       }
     }
