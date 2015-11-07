@@ -86,13 +86,14 @@ function vefl_views_exposed_form_preprocess(&$vars) {
  * A theme preprocess function for views_exposed_widget.
  */
 function vefl_preprocess_views_exposed_widget(&$vars) {
-  $vars['classes_array'][] = 'views-widget-' . str_replace('_', '-', $vars['widget']->id);
+  $vars['widget']->id = str_replace('_', '-', $vars['widget']->id);
+  $vars['classes_array'][] = 'views-widget-' . $vars['widget']->id;
 
   // Adds classes like in default views template.
   if ($vars['widget']->id == 'button') {
     $vars['classes_array'][] = 'views-submit-button';
   }
-  if ($vars['widget']->id == 'reset_button') {
+  if ($vars['widget']->id == 'reset-button') {
     $vars['classes_array'][] = 'views-reset-button';
   }
 }
