@@ -13,7 +13,7 @@
  */
 ?>
 
-<div id="<?php print $widget->id; ?>-wrapper" class="views-exposed-widget views-widget-<?php print $widget->id; ?>">
+<div id="<?php print $widget->id; ?>-wrapper" class="<?php print implode(' ', $classes_array); ?>">
   <?php if (!empty($widget->label)): ?>
     <label for="<?php print $widget->id; ?>">
       <?php print $widget->label; ?>
@@ -24,9 +24,11 @@
       <?php print $widget->operator; ?>
     </div>
   <?php endif; ?>
-  <div class="views-widget">
+
+  <?php if (property_exists($widget, 'operator')): ?><div class="views-widget"><?php endif; ?>
     <?php print $widget->widget; ?>
-  </div>
+  <?php if (property_exists($widget, 'operator')): ?></div><?php endif; ?>
+
   <?php if (!empty($widget->description)): ?>
     <div class="description">
       <?php print $widget->description; ?>

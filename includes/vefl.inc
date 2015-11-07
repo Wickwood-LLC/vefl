@@ -70,7 +70,7 @@ function vefl_views_exposed_form_preprocess(&$vars) {
   foreach ($layout['region_widgets'] as $region => $fields) {
     foreach ($fields as $id) {
       if (in_array($id, $actions) && (!empty($vars['widgets'][$id]->widget) || !empty($vars[$id]))) {
-        $widget = !empty($vars['widgets'][$id]->widget) ? $vars['widgets'][$id] : array('widget' => $vars[$id], 'id' => 'bef-' . $id);
+        $widget = !empty($vars['widgets'][$id]->widget) ? $vars['widgets'][$id] : array('widget' => $vars[$id], 'id' => $id);
         $vars['region_widgets'][$region][$id] = (object) $widget;
       }
     }
@@ -79,5 +79,20 @@ function vefl_views_exposed_form_preprocess(&$vars) {
   $vars['classes_array'][] = str_replace('_', '-', $layout['layout_id']);
   if (vefl_layout_module($layout['layout_id']) == 'vefl') {
     drupal_add_css(drupal_get_path('module', 'vefl') . '/css/vefl-layouts.css');
+  }
+}
+
+/**
+ * A theme preprocess function for views_exposed_widget.
+ */
+function vefl_preprocess_views_exposed_widget(&$vars) {
+  $vars['classes_array'][] = 'views-widget-' . str_replace('_', '-', $vars['widget']->id);
+
+  // Adds classes like in default views template.
+  if ($vars['widget']->id == 'button') {
+    $vars['classes_array'][] = 'views-submit-button';
+  }
+  if ($vars['widget']->id == 'reset_button') {
+    $vars['classes_array'][] = 'views-reset-button';
   }
 }
