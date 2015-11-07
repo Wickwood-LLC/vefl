@@ -96,4 +96,12 @@ function vefl_preprocess_views_exposed_widget(&$vars) {
   if ($vars['widget']->id == 'reset-button') {
     $vars['classes_array'][] = 'views-reset-button';
   }
+
+  // Adds widget theme suggestions.
+  $field_name = str_replace('-', '_', $vars['widget']->id);
+  if (substr($field_name, 0, 5) == 'edit_') {
+    $field_name = substr($field_name, 5);
+  }
+  // @todo: add suggestion by views name and display.
+  $vars['theme_hook_suggestions'][] = 'views_exposed_widget__' . $field_name;
 }

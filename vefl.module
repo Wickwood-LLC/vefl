@@ -19,6 +19,7 @@ function vefl_theme() {
   $path = drupal_get_path('module', 'vefl');
   $themes = array();
   $themes['views_exposed_widget'] = array(
+    'render element' => 'elements',
     'arguments' => array('widget' => NULL),
     'template' => 'views-exposed-widget',
     'path' => $path . '/theme',
