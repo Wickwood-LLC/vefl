@@ -124,7 +124,7 @@ class vefl_plugin_exposed_form_bef extends better_exposed_filters_exposed_form_p
 
     // Fill regions.
     $region_widgets = array();
-    $regions = array_keys($this->options['layout']['regions']);
+    $regions = array_keys(array_filter($this->options['layout']['regions']));
     foreach ($regions as $region) {
       $region_widgets[$region] = array();
     }
