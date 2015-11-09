@@ -9,7 +9,7 @@
  */
 function vefl_views_plugins() {
   $plugins = array('exposed_form' => array());
-  $plugins['exposed_form']['bef_basic_layout'] = array(
+  $plugins['exposed_form']['vefl_basic'] = array(
     'title' => t('Basic (with layout)'),
     'help' => t('Adds layout settings for Exposed form'),
     'handler' => 'vefl_plugin_exposed_form_basic',
