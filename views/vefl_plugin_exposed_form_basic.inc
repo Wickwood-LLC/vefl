@@ -17,6 +17,7 @@ class vefl_plugin_exposed_form_basic extends views_plugin_exposed_form_basic {
       'contains' => array(
         'layout_id' => array('default' => 'vefl_onecol'),
         'regions' => array('default' => array()),
+        'widget_region' => array('default' => array()),
       ),
     );
     return $options;

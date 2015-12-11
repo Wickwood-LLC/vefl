@@ -17,6 +17,7 @@ class vefl_plugin_exposed_form_bef extends better_exposed_filters_exposed_form_p
       'contains' => array(
         'layout_id' => array('default' => 'vefl_onecol'),
         'regions' => array('default' => array()),
+        'widget_region' => array('default' => array()),
       ),
     );
     return $options;
