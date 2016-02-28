@@ -32,7 +32,7 @@
     <div class="views-exposed-widgets clearfix">
       <?php foreach ($region_widgets as $region => $widgets): ?>
         <div class="vefl-region vefl-region-<?php print $region; ?>">
-          <?php foreach ($widgets as $id => $widget): ?>
+          <?php foreach ($widgets as $widget): ?>
             <?php print theme('views_exposed_widget', array('widget' => $widget)); ?>
           <?php endforeach; ?>
         </div>
