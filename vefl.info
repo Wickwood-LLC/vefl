@@ -1,9 +1,0 @@
-name = Views exposed form layout
-description = Provides functionality to output Views exposed filters in layout.
-core = 7.x
-package = Views
-
-dependencies[] = views
-
-files[] = views/vefl_plugin_exposed_form_basic.inc
-files[] = views/vefl_plugin_exposed_form_bef.inc
