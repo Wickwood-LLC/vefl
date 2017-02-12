@@ -4,6 +4,7 @@ namespace Drupal\vefl\Plugin\views\exposed_form;
 
 use Drupal\views\Plugin\views\exposed_form\Basic;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\vefl\Vefl;
 
 /**
  * Exposed form plugin that provides a basic exposed form with layout.
@@ -39,7 +40,7 @@ class VeflBasic extends Basic {
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     parent::buildOptionsForm($form, $form_state);
 
-    $options = vefl_get_layouts();
+    $options = Vefl::getLayoutsList();
     $layout_id = $this->options['layout']['layout_id'];
 
     // Outputs layout selectbox.
