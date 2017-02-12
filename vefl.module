@@ -4,3 +4,42 @@
  * @file
  * Module file for vefl.
  */
+
+/**
+ * Helper function to rebuild views exposed form.
+ */
+function _vefl_change_layout_button($form, &$form_state) {
+  $display = &$form_state['view']->display[$form_state['display_id']];
+  $display->handler->options_submit($form, $form_state);
+
+  //views_ui_cache_set($form_state['view']);
+  $form_state['rerender'] = TRUE;
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Returns array of layouts for exposed form.
+ *
+ * @param string $layout_id
+ *   Will returns info about one layout if layout id passed.
+ *
+ * @return array
+ *   An array contains info about exposed form layouts.
+ *
+ * @see vefl_vefl_layouts()
+ */
+function vefl_get_layouts($layout_id = '') {
+//  $layouts = &drupal_static(__FUNCTION__, array());
+//  if (empty($layouts)) {
+//    $layouts = module_invoke_all('vefl_layouts');
+//  }
+//  return !empty($layout_id) && !empty($layouts[$layout_id]) ? $layouts[$layout_id] : $layouts;
+
+  $options = array(
+    'vefl' => array(
+      'vefl_onecol' => t('VEFL One column'),
+      'vefl_twocol' => t('VEFL Two column'),
+    ),
+  );
+  return $options;
+}
