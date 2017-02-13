@@ -8,13 +8,6 @@ use Drupal\layout_plugin\Layout;
  * Helper class that holds all the main Display Suite helper functions.
  */
 class Vefl {
-  /**
-   * Gets Display Suite layouts.
-   */
-  public static function getLayout($layout_id) {
-    $layouts = Vefl::getLayouts();
-    return !empty($layouts[$layout_id]) ? $layouts[$layout_id] : array();
-  }
 
   /**
    * Gets Display Suite layouts.
@@ -32,9 +25,12 @@ class Vefl {
   /**
    * Gets Display Suite layouts.
    */
-  public static function getLayoutsList() {
-    $layouts = Vefl::getLayouts();
+  public static function getLayoutOptions($layouts = array()) {
+    if (empty($layouts)) {
+      $layouts = Vefl::getLayouts();
+    }
 
+    // Converts layouts array to options.
     $layout_options = array();
     foreach ($layouts as $key => $layout_definition) {
       $optgroup = t('Other');
@@ -56,8 +52,7 @@ class Vefl {
     if (count($layout_options) < 2) {
       $layout_options = reset($layout_options);
     }
-
-    return $layout_options;
+    return$layout_options;
   }
 
   /**
