@@ -5,14 +5,22 @@
  * Module file for vefl.
  */
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Helper function to rebuild views exposed form.
  */
-function _vefl_change_layout_button($form, &$form_state) {
-  $display = &$form_state['view']->display[$form_state['display_id']];
-  $display->handler->options_submit($form, $form_state);
-
-  //views_ui_cache_set($form_state['view']);
-  $form_state['rerender'] = TRUE;
-  $form_state['rebuild'] = TRUE;
+function _vefl_change_layout_button($form, FormStateInterface $form_state) {
+//  $display_id = $form_state->storage;
+//  $display = &$form_state['storage']['view']['storage']->display[$display_id];
+//  $display->handler->options_submit($form, $form_state);
+//
+//  //views_ui_cache_set($form_state['view']);
+//  //$form_state['storage']['view']->cacheSet();
+//  $form_state['rerender'] = TRUE;
+  //$form_state['rebuild'] = TRUE;
+  $form_state->setRebuild(true);
+  $aa = 'aaa';
+  //return $form['layout']['widget_region'];
+//  return array('#markup' => 'aaaa');
 }
