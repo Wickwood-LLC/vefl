@@ -127,4 +127,29 @@ class VeflBasic extends Basic {
     $form_state->set('rerender', TRUE);
     $form_state->setRebuild();
   }
+
+  /**
+   * @inheritdoc
+   */
+  public function exposedFormAlter(&$form, FormStateInterface $form_state) {
+    parent::exposedFormAlter($form, $form_state);
+
+    $layout_id = $this->options['layout']['layout_id'];
+    $widget_region = $this->options['layout']['widget_region'];
+
+    $form['#vefl_configuration'] = [
+      'layout' => [
+        'id' => $layout_id,
+        'settings' => [],
+      ],
+      'regions' => []
+    ];
+
+    foreach ($widget_region as $field_name => $region) {
+      $form['#vefl_configuration']['regions'][$region][] = $field_name;
+    }
+
+    $form['#theme'] = array('vefl_views_exposed_form');
+  }
+
 }

@@ -5,22 +5,64 @@
  * Module file for vefl.
  */
 
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\layout_plugin\Layout;
+/**
+ * Implements hook_theme().
+ */
+function vefl_theme() {
+  $path = drupal_get_path('module', 'vefl');
+  $themes = array();
+  $themes['vefl_views_exposed_form'] = array(
+    'render element' => 'form',
+    'theme path' => $path,
+    'function' => 'vefl_theme_views_exposed_form',
+    'preprocess functions' => array(
+      'template_preprocess_views_exposed_form', // Use default Views preprocess
+      'vefl_views_exposed_form_preprocess',     // and VEFL preprocess functions.
+    ),
+  );
+  return $themes;
+}
 
 /**
- * Helper function to rebuild views exposed form.
+ * A theme preprocess function for views_exposed_form.
+ *
+ * Adds $region_widgets array with separated by regions widgets.
  */
-function _vefl_change_layout_button($form, FormStateInterface $form_state) {
-//  $display_id = $form_state->storage;
-//  $display = &$form_state['storage']['view']['storage']->display[$display_id];
-//  $display->handler->options_submit($form, $form_state);
-//
-//  //views_ui_cache_set($form_state['view']);
-//  //$form_state['storage']['view']->cacheSet();
-//  $form_state['rerender'] = TRUE;
-  //$form_state['rebuild'] = TRUE;
-  $form_state->setRebuild(true);
-  $aa = 'aaa';
-  //return $form['layout']['widget_region'];
-//  return array('#markup' => 'aaaa');
+function vefl_views_exposed_form_preprocess(&$vars) {
+  //kint($vars);
+  return;
+}
+
+/**
+ * Theme function for Views exposed form.
+ *
+ * Wraps form field into regions.
+ *
+ * @see _vefl_form_theme_functions()
+ */
+function vefl_theme_views_exposed_form(&$vars) {
+  $form = $vars['form'];
+  $configuration = $form['#vefl_configuration'];
+
+  $regions = [];
+  foreach ($configuration['regions'] as $region_name => $field_names) {
+    $regions[$region_name] = [];
+
+    foreach ($field_names as $field_name) {
+
+      if (!empty($form['actions'][$field_name])) {
+        $regions[$region_name][$field_name] = $form['actions'][$field_name];
+        $regions[$region_name][$field_name]['#weight'] = $form['actions']['#weight'];
+      }
+      elseif (!empty($form[$field_name])) {
+        $regions[$region_name][$field_name] = $form[$field_name];
+      }
+    }
+  }
+
+  $layout = Layout::layoutPluginManager()->createInstance($configuration['layout']['id'], $configuration['layout']['settings']);
+  $built = $layout->build($regions);
+
+  return render($built);
 }

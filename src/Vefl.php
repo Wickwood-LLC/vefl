@@ -52,7 +52,7 @@ class Vefl {
     if (count($layout_options) < 2) {
       $layout_options = reset($layout_options);
     }
-    return$layout_options;
+    return $layout_options;
   }
 
   /**
@@ -64,8 +64,8 @@ class Vefl {
       'sort_order' => t('Sort order'),
       'items_per_page' => t('Items per page'),
       'offset' => t('Offset'),
-      'button' => t('Submit button'),
-      'reset_button' => t('Reset button'),
+      'submit' => t('Submit button'),
+      'reset' => t('Reset button'),
     );
     return $actions;
   }
