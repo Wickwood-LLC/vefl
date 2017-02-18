@@ -56,17 +56,17 @@ CONFIGURATION
   -In your theme define views-exposed-form.tpl.php, use $region_widgets variable to output widgets by regions.
   -views-exposed-form--VIEWNAME.tpl.php or views-exposed-form--VIEWNAME--DISPLAYNAME.tpl.php also work.
 
-
-CREDITS
--------
-The project sponsored by
-Bright Solutions GmbH (https://www.drupal.org/node/1469032).
-
-
 MAINTAINERS
 -----------
 Current maintainers:
  * Sergey Korzh (skorzh) - https://drupal.org/user/813560
 
 @todo:
--
+- Check what should be stored in config file
+- Test if all actions works well
+- Adds BEF support (trait must be used)
+- Adds sort_bef_combine support
+- Refactor the code
+- Add/update comments for code
+- Update Readme file
+- Update Project page
