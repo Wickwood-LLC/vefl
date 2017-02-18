@@ -66,4 +66,7 @@ Bright Solutions GmbH (https://www.drupal.org/node/1469032).
 MAINTAINERS
 -----------
 Current maintainers:
- * Sergey Korzh (korgik) - https://drupal.org/user/813560
+ * Sergey Korzh (skorzh) - https://drupal.org/user/813560
+
+@todo:
+-

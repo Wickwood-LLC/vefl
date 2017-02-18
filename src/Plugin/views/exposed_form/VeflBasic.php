@@ -61,7 +61,7 @@ class VeflBasic extends Basic {
       '#submit' => array(array($this, 'updateRegions')),
       '#suffix' => '</div>',
     );
-    $form['layout']['widget_region'] = VeflBasic::getRegionElement($layout_id, $layouts);
+    $form['layout']['widget_region'] = VeflBasic::getRegionElements($layout_id, $layouts);
   }
 
   /**
@@ -69,7 +69,7 @@ class VeflBasic extends Basic {
    * @param array $layouts
    * @return array
    */
-  private function getRegionElement($layout_id, $layouts = array()) {
+  private function getRegionElements($layout_id, $layouts = array()) {
 
     $element = array(
       '#prefix' => '<div id="edit-block-region-wrapper">',
@@ -80,6 +80,12 @@ class VeflBasic extends Basic {
       'filters' => $this->view->display_handler->getHandlers('filter'),
       'actions' => Vefl::getFormActions(),
     );
+
+    // Adds additional action for BEF combined sort. @todo
+//    if (!empty($vars['widgets']['sort-sort_bef_combine'])) {
+//      $actions[] = 'sort-sort_bef_combine';
+//    }
+
     $regions = array();
     foreach ($layouts[$layout_id]['regions'] as $region_id => $region) {
       $regions[$region_id] = $region['label'];
@@ -134,6 +140,7 @@ class VeflBasic extends Basic {
   public function exposedFormAlter(&$form, FormStateInterface $form_state) {
     parent::exposedFormAlter($form, $form_state);
 
+    $view = $form_state->get('view');
     $layout_id = $this->options['layout']['layout_id'];
     $widget_region = $this->options['layout']['widget_region'];
 
@@ -147,9 +154,14 @@ class VeflBasic extends Basic {
 
     foreach ($widget_region as $field_name => $region) {
       $form['#vefl_configuration']['regions'][$region][] = $field_name;
+
+      // Provides default wrapper settings for Display suite layout.
+      if (substr($layout_id, 0, 3) == 'ds_') {
+        $form['#vefl_configuration']['layout']['settings']['wrappers'][$region] = 'div';
+      }
     }
 
-    $form['#theme'] = array('vefl_views_exposed_form');
+    $form['#theme'] = $view->buildThemeFunctions('vefl_views_exposed_form');
   }
 
 }

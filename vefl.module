@@ -6,22 +6,26 @@
  */
 
 use Drupal\layout_plugin\Layout;
+
 /**
  * Implements hook_theme().
  */
 function vefl_theme() {
-  $path = drupal_get_path('module', 'vefl');
-  $themes = array();
-  $themes['vefl_views_exposed_form'] = array(
+  $hooks = array();
+  $hooks['vefl_views_exposed_form'] = array(
     'render element' => 'form',
-    'theme path' => $path,
-    'function' => 'vefl_theme_views_exposed_form',
-    'preprocess functions' => array(
-      'template_preprocess_views_exposed_form', // Use default Views preprocess
-      'vefl_views_exposed_form_preprocess',     // and VEFL preprocess functions.
-    ),
+    'theme path' => drupal_get_path('module', 'vefl'),
   );
-  return $themes;
+  return $hooks;
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function vefl_theme_registry_alter(&$theme_registry) {
+  // Inserts default views preprocess function before vefl preprocess function.
+  $before = array_search('template_preprocess_vefl_views_exposed_form', $theme_registry['vefl_views_exposed_form']['preprocess functions']);
+  array_splice($theme_registry['vefl_views_exposed_form']['preprocess functions'], $before, 0, array('template_preprocess_views_exposed_form'));
 }
 
 /**
@@ -29,20 +33,8 @@ function vefl_theme() {
  *
  * Adds $region_widgets array with separated by regions widgets.
  */
-function vefl_views_exposed_form_preprocess(&$vars) {
-  //kint($vars);
-  return;
-}
-
-/**
- * Theme function for Views exposed form.
- *
- * Wraps form field into regions.
- *
- * @see _vefl_form_theme_functions()
- */
-function vefl_theme_views_exposed_form(&$vars) {
-  $form = $vars['form'];
+function template_preprocess_vefl_views_exposed_form(&$variables) {
+  $form = $variables['form'];
   $configuration = $form['#vefl_configuration'];
 
   $regions = [];
@@ -64,5 +56,5 @@ function vefl_theme_views_exposed_form(&$vars) {
   $layout = Layout::layoutPluginManager()->createInstance($configuration['layout']['id'], $configuration['layout']['settings']);
   $built = $layout->build($regions);
 
-  return render($built);
+  $variables['form'] = $built;
 }
