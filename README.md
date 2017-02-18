@@ -63,10 +63,13 @@ Current maintainers:
 
 @todo:
 - Check what should be stored in config file
-- Test if all actions works well
+- Test if all actions works well (see getFormActions())
+- Test if theme suggestions work well, like vefl-views-exposed-form--VIEWNAME.html.twig
 - Adds BEF support (trait must be used)
 - Adds sort_bef_combine support
 - Refactor the code
 - Add/update comments for code
 - Update Readme file
 - Update Project page
+- check issue: https://www.drupal.org/node/2664258
+- check issue: https://www.drupal.org/node/2546576
