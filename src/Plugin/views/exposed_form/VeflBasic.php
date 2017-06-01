@@ -52,12 +52,12 @@ class VeflBasic extends Basic {
       '#prefix' => '<div class="container-inline">',
       '#type' => 'select',
       '#options' => Vefl::getLayoutOptions($layouts),
-      '#title' => t('Layout'),
+      '#title' => $this->t('Layout'),
       '#default_value' => $layout_id,
     );
     $form['layout']['change'] = array(
       '#type' => 'submit',
-      '#value' => t('Change'),
+      '#value' => $this->t('Change'),
       '#submit' => array(array($this, 'updateRegions')),
       '#suffix' => '</div>',
     );
