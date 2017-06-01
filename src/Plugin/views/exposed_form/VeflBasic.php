@@ -24,13 +24,13 @@ class VeflBasic extends Basic {
    */
   protected function defineOptions() {
     $options = parent::defineOptions();
-    $options['layout'] = array(
-      'contains' => array(
-        'layout_id' => array('default' => 'vefl_onecol'),
-        'regions' => array('default' => array()),
-        'widget_region' => array('default' => array()),
-      ),
-    );
+    $options['layout'] = [
+      'contains' => [
+        'layout_id' => ['default' => 'vefl_onecol'],
+        'regions' => ['default' => []],
+        'widget_region' => ['default' => []],
+      ],
+    ];
     return $options;
   }
 
@@ -44,23 +44,23 @@ class VeflBasic extends Basic {
     $layouts = Vefl::getLayouts();
 
     // Outputs layout selectbox.
-    $form['layout'] = array(
+    $form['layout'] = [
       '#type' => 'details',
       '#title' => $this->t('Layout settings'),
-    );
-    $form['layout']['layout_id'] = array(
+    ];
+    $form['layout']['layout_id'] = [
       '#prefix' => '<div class="container-inline">',
       '#type' => 'select',
       '#options' => Vefl::getLayoutOptions($layouts),
       '#title' => $this->t('Layout'),
       '#default_value' => $layout_id,
-    );
-    $form['layout']['change'] = array(
+    ];
+    $form['layout']['change'] = [
       '#type' => 'submit',
       '#value' => $this->t('Change'),
-      '#submit' => array(array($this, 'updateRegions')),
+      '#submit' => [[$this, 'updateRegions']],
       '#suffix' => '</div>',
-    );
+    ];
     $form['layout']['widget_region'] = VeflBasic::getRegionElements($layout_id, $layouts);
   }
 
@@ -69,24 +69,24 @@ class VeflBasic extends Basic {
    * @param array $layouts
    * @return array
    */
-  private function getRegionElements($layout_id, $layouts = array()) {
+  private function getRegionElements($layout_id, $layouts = []) {
 
-    $element = array(
+    $element = [
       '#prefix' => '<div id="edit-block-region-wrapper">',
       '#suffix' => '</div>',
-    );
+    ];
     // Outputs regions selectbox for each filter.
-    $types = array(
+    $types = [
       'filters' => $this->view->display_handler->getHandlers('filter'),
       'actions' => Vefl::getFormActions(),
-    );
+    ];
 
     // Adds additional action for BEF combined sort. @todo
 //    if (!empty($vars['widgets']['sort-sort_bef_combine'])) {
 //      $actions[] = 'sort-sort_bef_combine';
 //    }
 
-    $regions = array();
+    $regions = [];
     foreach ($layouts[$layout_id]['regions'] as $region_id => $region) {
       $regions[$region_id] = $region['label'];
     }
@@ -99,11 +99,11 @@ class VeflBasic extends Basic {
           $filter = $filter->definition['title'];
         }
 
-        $element[$id] = array(
+        $element[$id] = [
           '#type' => 'select',
           '#title' => $filter,
           '#options' => $regions,
-        );
+        ];
 
         // Set default region for chosen layout.
         if (!empty($this->options['layout']['widget_region'][$id]) && !empty($regions[$this->options['layout']['widget_region'][$id]])) {

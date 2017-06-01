@@ -11,11 +11,11 @@ use Drupal\layout_plugin\Layout;
  * Implements hook_theme().
  */
 function vefl_theme() {
-  $hooks = array();
-  $hooks['vefl_views_exposed_form'] = array(
+  $hooks = [];
+  $hooks['vefl_views_exposed_form'] = [
     'render element' => 'form',
     'theme path' => drupal_get_path('module', 'vefl'),
-  );
+  ];
   return $hooks;
 }
 
@@ -25,7 +25,7 @@ function vefl_theme() {
 function vefl_theme_registry_alter(&$theme_registry) {
   // Inserts default views preprocess function before vefl preprocess function.
   $before = array_search('template_preprocess_vefl_views_exposed_form', $theme_registry['vefl_views_exposed_form']['preprocess functions']);
-  array_splice($theme_registry['vefl_views_exposed_form']['preprocess functions'], $before, 0, array('template_preprocess_views_exposed_form'));
+  array_splice($theme_registry['vefl_views_exposed_form']['preprocess functions'], $before, 0, ['template_preprocess_views_exposed_form']);
 }
 
 /**

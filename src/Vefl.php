@@ -25,13 +25,13 @@ class Vefl {
   /**
    * Gets Display Suite layouts.
    */
-  public static function getLayoutOptions($layouts = array()) {
+  public static function getLayoutOptions($layouts = []) {
     if (empty($layouts)) {
       $layouts = Vefl::getLayouts();
     }
 
     // Converts layouts array to options.
-    $layout_options = array();
+    $layout_options = [];
     foreach ($layouts as $key => $layout_definition) {
       $optgroup = t('Other');
 
@@ -41,7 +41,7 @@ class Vefl {
       }
 
       if (!isset($layout_options[$optgroup])) {
-        $layout_options[$optgroup] = array();
+        $layout_options[$optgroup] = [];
       }
 
       // Stack the layout.
@@ -59,14 +59,14 @@ class Vefl {
    * Returns action fields for views exposed form.
    */
   public static function getFormActions() {
-    $actions = array(
+    $actions = [
       'sort_by' => t('Sort by'),
       'sort_order' => t('Sort order'),
       'items_per_page' => t('Items per page'),
       'offset' => t('Offset'),
       'submit' => t('Submit button'),
       'reset' => t('Reset button'),
-    );
+    ];
     return $actions;
   }
 }
