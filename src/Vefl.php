@@ -2,7 +2,7 @@
 
 namespace Drupal\vefl;
 
-use Drupal\layout_plugin\Layout;
+use Drupal\Core\Layout\LayoutPluginManagerInterface;
 
 /**
  * Helper class that holds all the main Display Suite helper functions.
@@ -10,13 +10,28 @@ use Drupal\layout_plugin\Layout;
 class Vefl {
 
   /**
+   * The layout plugin manager.
+   *
+   * @var \Drupal\Core\Layout\LayoutPluginManagerInterface
+   */
+  protected $layoutManager;
+
+  /**
+   * @param \Drupal\Core\Layout\LayoutPluginManagerInterface $layout_manager
+   *   The layout plugin manager.
+   */
+  public function __construct(LayoutPluginManagerInterface $layout_manager) {
+    $this->layoutManager = $layout_manager;
+  }
+
+  /**
    * Gets Display Suite layouts.
    */
-  public static function getLayouts() {
+  public function getLayouts() {
     static $layouts = FALSE;
 
     if (!$layouts) {
-      $layouts = Layout::layoutPluginManager()->getDefinitions();
+      $layouts = $this->layoutManager->getDefinitions();
     }
 
     return $layouts;
@@ -25,9 +40,9 @@ class Vefl {
   /**
    * Gets Display Suite layouts.
    */
-  public static function getLayoutOptions($layouts = []) {
+  public function getLayoutOptions($layouts = []) {
     if (empty($layouts)) {
-      $layouts = Vefl::getLayouts();
+      $layouts = $this->getLayouts();
     }
 
     // Converts layouts array to options.
@@ -36,8 +51,8 @@ class Vefl {
       $optgroup = t('Other');
 
       // Create new layout option group.
-      if (!empty($layout_definition['category'])) {
-        $optgroup = (string) $layout_definition['category'];
+      if (!empty($layout_definition->getCategory())) {
+        $optgroup = (string) $layout_definition->getCategory();
       }
 
       if (!isset($layout_options[$optgroup])) {
@@ -45,13 +60,14 @@ class Vefl {
       }
 
       // Stack the layout.
-      $layout_options[$optgroup][$key] = $layout_definition['label'];
+      $layout_options[$optgroup][$key] = $layout_definition->getLabel();
     }
 
     // If there is only one $optgroup, move it to the root.
     if (count($layout_options) < 2) {
       $layout_options = reset($layout_options);
     }
+
     return $layout_options;
   }
 
@@ -67,6 +83,8 @@ class Vefl {
       'submit' => t('Submit button'),
       'reset' => t('Reset button'),
     ];
+
     return $actions;
   }
+
 }

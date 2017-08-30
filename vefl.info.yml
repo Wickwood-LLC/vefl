@@ -1,10 +1,9 @@
 name: Views exposed form layout
-description: Provides functionality to output Views exposed filters in layout.
+description: 'Provides functionality to output Views exposed filters in layout.'
 package: Views
-
 type: module
 core: 8.x
 
 dependencies:
+  - drupal:layout_discovery
   - drupal:views
-  - layout_plugin:layout_plugin

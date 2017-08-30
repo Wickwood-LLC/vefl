@@ -5,18 +5,16 @@
  * Module file for vefl.
  */
 
-use Drupal\layout_plugin\Layout;
-
 /**
  * Implements hook_theme().
  */
 function vefl_theme() {
-  $hooks = [];
-  $hooks['vefl_views_exposed_form'] = [
-    'render element' => 'form',
-    'theme path' => drupal_get_path('module', 'vefl'),
+  return [
+    'vefl_views_exposed_form' => [
+      'render element' => 'form',
+      'theme path' => drupal_get_path('module', 'vefl')
+    ]
   ];
-  return $hooks;
 }
 
 /**
@@ -53,7 +51,8 @@ function template_preprocess_vefl_views_exposed_form(&$variables) {
     }
   }
 
-  $layout = Layout::layoutPluginManager()->createInstance($configuration['layout']['id'], $configuration['layout']['settings']);
+  $layoutPluginManager = \Drupal::service('plugin.manager.core.layout');
+  $layout = $layoutPluginManager->createInstance($configuration['layout']['id'], $configuration['layout']['settings']);
   $built = $layout->build($regions);
 
   $variables['form'] = $built;

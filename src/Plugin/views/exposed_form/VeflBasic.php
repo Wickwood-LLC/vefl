@@ -2,6 +2,7 @@
 
 namespace Drupal\vefl\Plugin\views\exposed_form;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\views\Plugin\views\exposed_form\Basic;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\vefl\Vefl;
@@ -18,6 +19,42 @@ use Drupal\vefl\Vefl;
  * )
  */
 class VeflBasic extends Basic {
+
+  /**
+   * The vefl layout helper.
+   *
+   * @var \Drupal\vefl\Vefl
+   */
+  protected $vefl;
+
+  /**
+   * Constructs a PluginBase object.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\vefl\Vefl $vefl
+   *   The vefl layout helper.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, Vefl $vefl) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->vefl = $vefl;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('vefl.layout')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -41,7 +78,7 @@ class VeflBasic extends Basic {
     parent::buildOptionsForm($form, $form_state);
 
     $layout_id = $this->options['layout']['layout_id'];
-    $layouts = Vefl::getLayouts();
+    $layouts = $this->vefl->getLayouts();
 
     // Outputs layout selectbox.
     $form['layout'] = [
@@ -51,7 +88,7 @@ class VeflBasic extends Basic {
     $form['layout']['layout_id'] = [
       '#prefix' => '<div class="container-inline">',
       '#type' => 'select',
-      '#options' => Vefl::getLayoutOptions($layouts),
+      '#options' => $this->vefl->getLayoutOptions($layouts),
       '#title' => $this->t('Layout'),
       '#default_value' => $layout_id,
     ];
@@ -61,7 +98,7 @@ class VeflBasic extends Basic {
       '#submit' => [[$this, 'updateRegions']],
       '#suffix' => '</div>',
     ];
-    $form['layout']['widget_region'] = VeflBasic::getRegionElements($layout_id, $layouts);
+    $form['layout']['widget_region'] = $this->getRegionElements($layout_id, $layouts);
   }
 
   /**
@@ -70,7 +107,6 @@ class VeflBasic extends Basic {
    * @return array
    */
   private function getRegionElements($layout_id, $layouts = []) {
-
     $element = [
       '#prefix' => '<div id="edit-block-region-wrapper">',
       '#suffix' => '</div>',
@@ -78,7 +114,7 @@ class VeflBasic extends Basic {
     // Outputs regions selectbox for each filter.
     $types = [
       'filters' => $this->view->display_handler->getHandlers('filter'),
-      'actions' => Vefl::getFormActions(),
+      'actions' => $this->vefl->getFormActions(),
     ];
 
     // Adds additional action for BEF combined sort. @todo
@@ -87,9 +123,10 @@ class VeflBasic extends Basic {
 //    }
 
     $regions = [];
-    foreach ($layouts[$layout_id]['regions'] as $region_id => $region) {
+    foreach ($layouts[$layout_id]->getRegions() as $region_id => $region) {
       $regions[$region_id] = $region['label'];
     }
+
     foreach ($types as $type => $fields) {
       foreach ($fields as $id => $filter) {
         if ($type == 'filters') {
@@ -120,7 +157,7 @@ class VeflBasic extends Basic {
    *
    * Takes care of content translation deletion.
    */
-  function updateRegions($form, FormStateInterface $form_state) {
+  public function updateRegions($form, FormStateInterface $form_state) {
     $view = $form_state->get('view');
     $display_id = $form_state->get('display_id');
 
