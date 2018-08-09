@@ -124,7 +124,14 @@ trait VeflTrait {
           if (!$filter->options['exposed']) {
             continue;
           }
-          $filter = $filter->definition['title'];
+          elseif ($filter->options['is_grouped']) {
+            $id = $filter->options['group_info']['identifier'];
+            $filter = $filter->options['group_info']['label'];
+          }
+          else {
+            $id = $filter->options['expose']['identifier'];
+            $filter = $filter->options['expose']['label'];
+          }
         }
 
         $element[$id] = [
