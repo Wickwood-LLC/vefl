@@ -108,11 +108,6 @@ trait VeflTrait {
       'actions' => $this->vefl->getFormActions(),
     ];
 
-    // Adds additional action for BEF combined sort. @todo
-//    if (!empty($vars['widgets']['sort-sort_bef_combine'])) {
-//      $actions[] = 'sort-sort_bef_combine';
-//    }
-
     $regions = [];
     foreach ($layouts[$layout_id]->getRegions() as $region_id => $region) {
       $regions[$region_id] = $region['label'];
