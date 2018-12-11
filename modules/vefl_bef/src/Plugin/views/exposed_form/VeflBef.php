@@ -38,10 +38,8 @@ class VeflBef extends BetterExposedFilters {
     // Add option for secondary exposed form.
     $types['actions']['secondary'] = t('Secondary exposed form options');
 
-    // Adds additional action for BEF combined sort. @todo
-//    if (!empty($vars['widgets']['sort-sort_bef_combine'])) {
-//      $actions[] = 'sort-sort_bef_combine';
-//    }
+    // Add additional action for combined sort.
+    $types['actions']['sort_bef_combine'] = t('Combine sort order with sort by');
 
     $regions = [];
     foreach ($layouts[$layout_id]->getRegions() as $region_id => $region) {
@@ -75,6 +73,15 @@ class VeflBef extends BetterExposedFilters {
           $element[$id]['#states'] = [
             'visible' => [
               ':input[name="exposed_form_options[bef][general][allow_secondary]"]' => ['checked' => TRUE],
+            ],
+          ];
+        }
+
+        // Add states if combined sort.
+        if ($id == 'sort_bef_combine') {
+          $element[$id]['#states'] = [
+            'visible' => [
+              ':input[name="exposed_form_options[bef][sort][advanced][combine]"]' => ['checked' => TRUE],
             ],
           ];
         }
