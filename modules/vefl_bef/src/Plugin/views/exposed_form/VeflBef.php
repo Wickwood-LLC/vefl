@@ -20,11 +20,9 @@ class VeflBef extends BetterExposedFilters {
   use VeflTrait;
 
   /**
-   * @param $layout_id
-   * @param array $layouts
-   * @return array
+   * {@inheritdoc}
    */
-  private function getRegionElements($layout_id, $layouts = []) {
+  private function getRegionElements($layout_id, array $layouts = []) {
     $element = [
       '#prefix' => '<div id="edit-block-region-wrapper">',
       '#suffix' => '</div>',
@@ -95,4 +93,5 @@ class VeflBef extends BetterExposedFilters {
 
     return $element;
   }
+
 }

@@ -93,11 +93,17 @@ trait VeflTrait {
   }
 
   /**
-   * @param $layout_id
+   * Set filters for regions.
+   *
+   * @param string $layout_id
+   *   The layout id.
    * @param array $layouts
+   *   The array of layouts.
+   *
    * @return array
+   *   Form elements.
    */
-  private function getRegionElements($layout_id, $layouts = []) {
+  private function getRegionElements($layout_id, array $layouts = []) {
     $element = [
       '#prefix' => '<div id="edit-block-region-wrapper">',
       '#suffix' => '</div>',
@@ -165,6 +171,8 @@ trait VeflTrait {
   }
 
   /**
+   * Alters the exposed form.
+   *
    * @inheritdoc
    */
   public function exposedFormAlter(&$form, FormStateInterface $form_state) {
@@ -179,7 +187,7 @@ trait VeflTrait {
         'id' => $layout_id,
         'settings' => [],
       ],
-      'regions' => []
+      'regions' => [],
     ];
 
     foreach ($widget_region as $field_name => $region) {

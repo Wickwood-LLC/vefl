@@ -38,14 +38,18 @@ INSTALLATION
 ------------
 Install as you would normally install a contributed drupal module.
 See: https://drupal.org/documentation/install/modules-themes/modules-7
-for further information. Enable **Better exposed filters layout** module if you want use layouts with **Better exposed filters** (https://www.drupal.org/project/better_exposed_filters) module.
+for further information.
+Enable **Better exposed filters layout** module if you want use layouts with
+**Better exposed filters**
+(https://www.drupal.org/project/better_exposed_filters) module.
 
 
 CONFIGURATION
 -------------
 * For site-builders:
   -On views edit page find Exposed form section.
-  -Choose Basic (with layout) or Better Exposed Filters (with layout) Exposed form style.
+  -Choose Basic (with layout) or Better Exposed Filters (with layout)
+   Exposed form style.
   -Exposed form settings form find Layout settings fieldset.
   -Choose Layout and click Change. Do you need more default layouts?
   -Set in which region each exposed filter will be outputted.
@@ -53,8 +57,10 @@ CONFIGURATION
 * For developers:
   -You can define custom layouts, see an example in vefl.api.php.
   -You can override exposed form template as usual:
-  -In your theme define views-exposed-form.tpl.php, use $region_widgets variable to output widgets by regions.
-  -views-exposed-form--VIEWNAME.tpl.php or views-exposed-form--VIEWNAME--DISPLAYNAME.tpl.php also work.
+  -In your theme define views-exposed-form.tpl.php,
+   use $region_widgets variable to output widgets by regions.
+  -views-exposed-form--VIEWNAME.tpl.php or
+   views-exposed-form--VIEWNAME--DISPLAYNAME.tpl.php also work.
 
 MAINTAINERS
 -----------
@@ -64,11 +70,8 @@ Current maintainers:
 @todo:
 - Check what should be stored in config file
 - Test if all actions works well (see getFormActions())
-- Test if theme suggestions work well, like vefl-views-exposed-form--VIEWNAME.html.twig
-- Adds sort_bef_combine support
-- Refactor the code
-- Add/update comments for code
+- Test if theme suggestions work well,
+  like vefl-views-exposed-form--VIEWNAME.html.twig
 - Update Readme file
 - Update Project page
 - check issue: https://www.drupal.org/node/2664258
-- check issue: https://www.drupal.org/node/2546576
