@@ -127,24 +127,26 @@ trait VeflTrait {
           }
           elseif ($filter->options['is_grouped']) {
             $id = $filter->options['group_info']['identifier'];
-            $filter = $filter->options['group_info']['label'];
+            $label = $filter->options['group_info']['label'];
           }
           else {
             $id = $filter->options['expose']['identifier'];
-            $filter = $filter->options['expose']['label'];
+            $label = $filter->options['expose']['label'];
           }
         }
-
-        $element[$id] = [
-          '#type' => 'select',
-          '#title' => $filter,
-          '#options' => $regions,
-        ];
-
-        // Set default region for chosen layout.
-        if (!empty($this->options['layout']['widget_region'][$id]) && !empty($regions[$this->options['layout']['widget_region'][$id]])) {
-          $element[$id]['#default_value'] = $this->options['layout']['widget_region'][$id];
+        else {
+          $label = $filter;
         }
+
+        // Check if the operator is exposed for this filter.
+        if (isset($filter->options['expose']['use_operator'])
+          && $filter->options['expose']['use_operator']
+        ) {
+          $operator_id = $filter->options['expose']['operator_id'];;
+          $element[$operator_id] = $this->createSelectElementForVeflForm($operator_id, $this->t('Expose operator') . ' - ' . $label, $regions);
+        }
+
+        $element[$id] = $this->createSelectElementForVeflForm($operator_id, $label, $regions);
       }
     }
 
@@ -200,6 +202,34 @@ trait VeflTrait {
     }
 
     $form['#theme'] = $view->buildThemeFunctions('vefl_views_exposed_form');
+  }
+
+  /**
+   * Create form element VEFL form.
+   *
+   * @param string $element_id
+   *   The form element id.
+   * @param string $label
+   *   The label for the form's element.
+   * @param array $regions
+   *   The array of regions.
+   *
+   * @return array
+   *   Form element.
+   */
+  private function createSelectElementForVeflForm($element_id, $label, array $regions) {
+    $element = [
+      '#type' => 'select',
+      '#title' => $label,
+      '#options' => $regions,
+    ];
+
+    // Set default region for chosen layout.
+    if (!empty($this->options['layout']['widget_region'][$element_id]) && !empty($regions[$this->options['layout']['widget_region'][$element_id]])) {
+      $element['#default_value'] = $this->options['layout']['widget_region'][$element_id];
+    }
+
+    return $element;
   }
 
 }

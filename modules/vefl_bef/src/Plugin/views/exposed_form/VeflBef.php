@@ -52,19 +52,26 @@ class VeflBef extends BetterExposedFilters {
           }
           elseif ($filter->options['is_grouped']) {
             $id = $filter->options['group_info']['identifier'];
-            $filter = $filter->options['group_info']['label'];
+            $label = $filter->options['group_info']['label'];
           }
           else {
             $id = $filter->options['expose']['identifier'];
-            $filter = $filter->options['expose']['label'];
+            $label = $filter->options['expose']['label'];
           }
         }
+        else {
+          $label = $filter;
+        }
 
-        $element[$id] = [
-          '#type' => 'select',
-          '#title' => $filter,
-          '#options' => $regions,
-        ];
+        // Check if the operator is exposed for this filter.
+        if (isset($filter->options['expose']['use_operator'])
+          && $filter->options['expose']['use_operator']
+        ) {
+          $operator_id = $filter->options['expose']['operator_id'];;
+          $element[$operator_id] = $this->createSelectElementForVeflForm($operator_id, $this->t('Expose operator') . ' - ' . $label, $regions);
+        }
+
+        $element[$id] = $this->createSelectElementForVeflForm($operator_id, $label, $regions);
 
         // Add states if secondary.
         if ($id == 'secondary') {
@@ -82,11 +89,6 @@ class VeflBef extends BetterExposedFilters {
               ':input[name="exposed_form_options[bef][sort][advanced][combine]"]' => ['checked' => TRUE],
             ],
           ];
-        }
-
-        // Set default region for chosen layout.
-        if (!empty($this->options['layout']['widget_region'][$id]) && !empty($regions[$this->options['layout']['widget_region'][$id]])) {
-          $element[$id]['#default_value'] = $this->options['layout']['widget_region'][$id];
         }
       }
     }
