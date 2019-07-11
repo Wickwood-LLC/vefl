@@ -146,7 +146,7 @@ trait VeflTrait {
           $element[$operator_id] = $this->createSelectElementForVeflForm($operator_id, $this->t('Expose operator') . ' - ' . $label, $regions);
         }
 
-        $element[$id] = $this->createSelectElementForVeflForm($operator_id, $label, $regions);
+        $element[$id] = $this->createSelectElementForVeflForm($id, $label, $regions);
       }
     }
 
