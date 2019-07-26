@@ -142,7 +142,7 @@ trait VeflTrait {
         if (isset($filter->options['expose']['use_operator'])
           && $filter->options['expose']['use_operator']
         ) {
-          $operator_id = $filter->options['expose']['operator_id'];;
+          $operator_id = $filter->options['expose']['operator_id'];
           $element[$operator_id] = $this->createSelectElementForVeflForm($operator_id, $this->t('Expose operator') . ' - ' . $label, $regions);
         }
 
