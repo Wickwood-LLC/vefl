@@ -25,6 +25,7 @@ FEATURES
  * Provides Default and supports Panels layouts.
  * You can define custom layouts with regions.
  * You can override exposed form template as usual.
+ * Works with **Exposed form in block**.
  * Supports Better exposed filters module.
 
 
