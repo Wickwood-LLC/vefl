@@ -47,6 +47,7 @@ function template_preprocess_vefl_views_exposed_form(&$variables) {
       }
       elseif (!empty($form[$field_name])) {
         $regions[$region_name][$field_name] = $form[$field_name];
+        $regions[$region_name][$field_name]['#title'] = isset($form['#info']['filter-' . $field_name]) ? $form['#info']['filter-' . $field_name]['label'] : NULL;      
       }
     }
   }
