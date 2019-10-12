@@ -8,11 +8,11 @@
 /**
  * Implements hook_theme().
  */
-function vefl_theme() {
+function vefl_theme($existing, $type, $theme, $path) {
   return [
     'vefl_views_exposed_form' => [
       'render element' => 'form',
-      'theme path' => drupal_get_path('module', 'vefl'),
+      'theme path' => $path,
     ],
   ];
 }
