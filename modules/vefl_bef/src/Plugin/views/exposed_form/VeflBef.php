@@ -2,8 +2,11 @@
 
 namespace Drupal\vefl_bef\Plugin\views\exposed_form;
 
+use Drupal\better_exposed_filters\Plugin\BetterExposedFiltersWidgetManager;
 use Drupal\better_exposed_filters\Plugin\views\exposed_form\BetterExposedFilters;
 use Drupal\vefl\Plugin\views\exposed_form\VeflTrait;
+use Drupal\vefl\Vefl;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Exposed form plugin that provides a better exposed filters form with layout.
@@ -18,6 +21,80 @@ use Drupal\vefl\Plugin\views\exposed_form\VeflTrait;
  */
 class VeflBef extends BetterExposedFilters {
   use VeflTrait;
+
+  /**
+   * BEF filters widget plugin manager.
+   *
+   * @var \Drupal\better_exposed_filters\Plugin\BetterExposedFiltersWidgetManager
+   */
+  public $filterWidgetManager;
+
+  /**
+   * BEF pager widget plugin manager.
+   *
+   * @var \Drupal\better_exposed_filters\Plugin\BetterExposedFiltersWidgetManager
+   */
+  public $pagerWidgetManager;
+
+  /**
+   * BEF sort widget plugin manager.
+   *
+   * @var \Drupal\better_exposed_filters\Plugin\BetterExposedFiltersWidgetManager
+   */
+  public $sortWidgetManager;
+
+  /**
+   * The vefl layout helper.
+   *
+   * @var \Drupal\vefl\Vefl
+   */
+  protected $vefl;
+
+  /**
+   * BetterExposedFilters constructor.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\better_exposed_filters\Plugin\BetterExposedFiltersWidgetManager $filter_widget_manager
+   *   The better exposed filter widget manager for filter widgets.
+   * @param \Drupal\better_exposed_filters\Plugin\BetterExposedFiltersWidgetManager $pager_widget_manager
+   *   The better exposed filter widget manager for pager widgets.
+   * @param \Drupal\better_exposed_filters\Plugin\BetterExposedFiltersWidgetManager $sort_widget_manager
+   *   The better exposed filter widget manager for sort widgets.
+   * @param \Drupal\vefl\Vefl $vefl
+   *   The vefl layout helper.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, BetterExposedFiltersWidgetManager $filter_widget_manager, BetterExposedFiltersWidgetManager $pager_widget_manager, BetterExposedFiltersWidgetManager $sort_widget_manager, Vefl $vefl) {
+    parent::__construct(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $this->filterWidgetManager = $filter_widget_manager,
+      $this->pagerWidgetManager = $pager_widget_manager,
+      $this->sortWidgetManager = $sort_widget_manager
+    );
+
+    $this->vefl = $vefl;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('plugin.manager.better_exposed_filters_filter_widget'),
+      $container->get('plugin.manager.better_exposed_filters_pager_widget'),
+      $container->get('plugin.manager.better_exposed_filters_sort_widget'),
+      $container->get('vefl.layout')
+    );
+  }
 
   /**
    * {@inheritdoc}

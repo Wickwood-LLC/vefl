@@ -1,10 +1,11 @@
 name: Better Exposed Filters Layout
-description: 'Provides functionality to output Better exposed filters in a layout.'
+description: Provides functionality to output Better exposed filters in a layout.
 package: Views
 type: module
 core: 8.x
+core_version_requirement: ^8 || ^9
 
 dependencies:
   - vefl:vefl
-  - better_exposed_filters:better_exposed_filters
+  - better_exposed_filters:better_exposed_filters (>=8.x-4.x)
   - drupal:views

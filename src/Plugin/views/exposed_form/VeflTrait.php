@@ -2,50 +2,12 @@
 
 namespace Drupal\vefl\Plugin\views\exposed_form;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\vefl\Vefl;
 
 /**
  * Trait for vefl.
  */
 trait VeflTrait {
-
-  /**
-   * The vefl layout helper.
-   *
-   * @var \Drupal\vefl\Vefl
-   */
-  protected $vefl;
-
-  /**
-   * Constructs a PluginBase object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param \Drupal\vefl\Vefl $vefl
-   *   The vefl layout helper.
-   */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, Vefl $vefl) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->vefl = $vefl;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('vefl.layout')
-    );
-  }
 
   /**
    * {@inheritdoc}
