@@ -46,8 +46,18 @@ function template_preprocess_vefl_views_exposed_form(&$variables) {
         $regions[$region_name][$field_name]['#weight'] = $form['actions']['#weight'];
       }
       elseif (!empty($form[$field_name])) {
+        $form[$field_name]['#title'] = NULL;
         $regions[$region_name][$field_name] = $form[$field_name];
-        $regions[$region_name][$field_name]['#title'] = isset($form['#info']['filter-' . $field_name]) ? $form['#info']['filter-' . $field_name]['label'] : NULL;      
+        if (empty($form[$field_name]['#title'])) {
+          $title = NULL;
+          foreach ($form['#info'] as $filter_name => $filter_info) {
+            // The $field_name always matches $filter_info['value'].
+            if (0 === strpos($filter_name, 'filter-') && $filter_info['value'] === $field_name && !empty($filter_info['label'])) {
+              $title = $filter_info['label'];
+            }
+          }
+          $regions[$region_name][$field_name]['#title'] = $title;
+        }
       }
     }
   }
