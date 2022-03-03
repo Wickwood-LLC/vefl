@@ -6,6 +6,7 @@ use Drupal\better_exposed_filters\Plugin\BetterExposedFiltersWidgetManager;
 use Drupal\better_exposed_filters\Plugin\views\exposed_form\BetterExposedFilters;
 use Drupal\vefl\Plugin\views\exposed_form\VeflTrait;
 use Drupal\vefl\Vefl;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -44,6 +45,13 @@ class VeflBef extends BetterExposedFilters {
   public $sortWidgetManager;
 
   /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * The vefl layout helper.
    *
    * @var \Drupal\vefl\Vefl
@@ -65,17 +73,20 @@ class VeflBef extends BetterExposedFilters {
    *   The better exposed filter widget manager for pager widgets.
    * @param \Drupal\better_exposed_filters\Plugin\BetterExposedFiltersWidgetManager $sort_widget_manager
    *   The better exposed filter widget manager for sort widgets.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   Manage drupal modules.
    * @param \Drupal\vefl\Vefl $vefl
    *   The vefl layout helper.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, BetterExposedFiltersWidgetManager $filter_widget_manager, BetterExposedFiltersWidgetManager $pager_widget_manager, BetterExposedFiltersWidgetManager $sort_widget_manager, Vefl $vefl) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, BetterExposedFiltersWidgetManager $filter_widget_manager, BetterExposedFiltersWidgetManager $pager_widget_manager, BetterExposedFiltersWidgetManager $sort_widget_manager, ModuleHandlerInterface $module_handler, Vefl $vefl) {
     parent::__construct(
       $configuration,
       $plugin_id,
       $plugin_definition,
       $this->filterWidgetManager = $filter_widget_manager,
       $this->pagerWidgetManager = $pager_widget_manager,
-      $this->sortWidgetManager = $sort_widget_manager
+      $this->sortWidgetManager = $sort_widget_manager,
+      $this->moduleHandler = $module_handler
     );
 
     $this->vefl = $vefl;
@@ -92,6 +103,7 @@ class VeflBef extends BetterExposedFilters {
       $container->get('plugin.manager.better_exposed_filters_filter_widget'),
       $container->get('plugin.manager.better_exposed_filters_pager_widget'),
       $container->get('plugin.manager.better_exposed_filters_sort_widget'),
+      $container->get('module_handler'),
       $container->get('vefl.layout')
     );
   }
